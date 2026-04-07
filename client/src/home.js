@@ -238,17 +238,7 @@ const openEditModal = () => {
           ))}
 
           <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-            <input
-              value={commentBody}
-              onChange={e => setCommentBody(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handlePostComment()}
-              placeholder='Write a comment...'
-              style={{
-                flex: 1, backgroundColor: '#212121', border: 'none', borderRadius: '8px',
-                color: '#fff', fontFamily: 'Montserrat', fontSize: '13px',
-                padding: '8px 12px', outline: 'none',
-              }}
-            />
+            <input value={commentBody} onChange={e => setCommentBody(e.target.value)} onKeyDown={e => e.key === 'Enter' && handlePostComment()} placeholder='Write a comment...' style={{flex: 1, backgroundColor: '#212121', border: 'none', borderRadius: '8px', color: '#fff', fontFamily: 'Montserrat', fontSize: '13px', padding: '8px 12px', outline: 'none',}}/>
             <button onClick={handlePostComment} style={modalBtnStyle(true)}>Post</button>
           </div>
         </div>
