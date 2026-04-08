@@ -108,7 +108,7 @@ return (
         <h1 className='awcxd' onClick={() => navigate('/')}>YapON</h1>
         <button className='rngmv' onClick={() => navigate('/')}>← Back</button>
       </div>
-      </div>
+    </div>
     <div className='ximga'>
       {loading && (
         <p className='wlqhi'>Loading...</p>
@@ -118,7 +118,6 @@ return (
         )}
         {!loading && !notFound && profile && (
       <>
-
             <div className='pkmjr'>
               <div className='tmrgj'>
                 <div className='naygh'>

@@ -423,7 +423,7 @@ body {
 }
 /*CURRENT USER*/
 .mlvhn {
-  color: #fff;
+  color: #ffffff;
   font-weight: 600;
   cursor: pointer;
 }
@@ -720,15 +720,16 @@ body {
 }
 
 .rngmv {
-  margin-left: auto;
+  display: flex;
+  margin-left: 30px;
   background-color: #212121;
   border: 1px solid #555;
-  color: #fff;
+  color: #ffffff;
   font-family: 'Montserrat';
   border-radius: 10px;
   padding: 6px 16px;
   cursor: pointer;
-  font-size: 13px;;
+  font-size: 13px;
 }
 
 .ximga {
@@ -885,7 +886,7 @@ body {
 }
 
 .npsad {
-color: '#fff';
+color: #ffffff;
 font-family: 'Montserrat';
 font-weight: 600;
 font-size: 22px;
@@ -1074,11 +1075,11 @@ font-size: 12px;
   line-height: 1.5;
 }
 
-
-
 .jgdyb {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .awcxd {
