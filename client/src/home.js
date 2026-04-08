@@ -5,7 +5,6 @@ import './style.css';
 
 const BASE_URL = 'http://localhost:5000';
 const authHeaders = (token) => ({ Authorization: `Bearer ${token}` });
-
 const CATEGORIES = ['All Posts', 'Tech', 'Career', 'General', 'Health', 'Hobbies'];
 const CAT_CLASSES = ['hujp', 'wkwm', 'jjvh', 'bobp', 'khsc', 'fqxw'];
 
@@ -34,7 +33,6 @@ axios.interceptors.response.use(
   }
 );
 
-
 const modalBtnStyle = (primary) => ({
   backgroundColor: primary ? '#fff' : '#212121',
   border: primary ? 'none' : '1px solid #555',
@@ -43,22 +41,20 @@ const modalBtnStyle = (primary) => ({
   borderRadius: '10px', padding: '8px 20px', cursor: 'pointer',
 });
 
-// ── PostCard ──────────────────────────────────────────────────────────────────
-
 function PostCard({ post, isPrivileged, onDelete, onPin, onRefresh }) {
-  const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [commentBody, setCommentBody] = useState('');
-  const [loadingComments, setLoadingComments] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [editTitle, setEditTitle] = useState(post.title);
-  const [editBody, setEditBody] = useState(post.body);
-  const [editError, setEditError] = useState('');
 
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const currentUsername = localStorage.getItem('username');
-  const isOwnPost = post.author === currentUsername;
+const navigate = useNavigate();
+const [showComments, setShowComments] = useState(false);
+const [comments, setComments] = useState([]);
+const [commentBody, setCommentBody] = useState('');
+const [loadingComments, setLoadingComments] = useState(false);
+const [showEditModal, setShowEditModal] = useState(false);
+const [editTitle, setEditTitle] = useState(post.title);
+const [editBody, setEditBody] = useState(post.body);
+const [editError, setEditError] = useState('');
+const token = localStorage.getItem('token');
+const currentUsername = localStorage.getItem('username');
+const isOwnPost = post.author === currentUsername;
 
 /*Grabs Comments From Database*/
 const fetchComments = async () => {
@@ -152,7 +148,6 @@ const openEditModal = () => {
 
   return (
     <div className={post.pinned == 1 ? 'postcard pinned-card' : 'postcard'}>
-
       <div className='tsumi'>
         <div className='uwqnv'>
           <span className='kmsya'>{post.category}</span>

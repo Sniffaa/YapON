@@ -135,6 +135,7 @@ const formatDate = (iso) =>
     hour: '2-digit', minute: '2-digit',
   });
 
+/**/
 const tabStyle = (tab) => ({
   backgroundColor: activeTab === tab ? '#1e1e1e' : '#2e2e2e',
   color: activeTab === tab ? '#fff' : '#aaa',
@@ -163,73 +164,29 @@ return (
       <div className='tbrdw'>
     {message}
 
-    <button onClick={() => setMessage('')} style={{ background: 'none', border: 'none', color: '#7ecb7e', cursor: 'pointer', fontSize: '16px' }}>×</button>
+    <button className='cwkbd' onClick={() => setMessage('')}>×</button>
   </div>
 )}
 
-
-
-
-
-
       <div className='nmeuf'>
-
-
         {activeTab === 'users' && (
           <div className='lvkfn'>
             {users.map(user => (
-              <div key={user.id} style={{
-                backgroundColor: user.banned ? '#2a1a1a' : '#2e2e2e',
-                border: user.banned ? '1px solid #cc4444' : '1px solid #3d3d3d',
-                borderRadius: '10px',
-                padding: '14px 20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '10px',
-              }}>
+              <div key={user.id} className={`user-card${user.banned ? ' banned' : ''}`}>
                 <div>
-                  <p style={{ color: user.banned ? '#cc4444' : '#fff', fontFamily: 'Montserrat', fontWeight: 600, marginBottom: '4px' }}>
+                  <p className="user-name">
                     {user.username}
-                    <span style={{
-                      marginLeft: '10px',
-                      fontSize: '11px',
-                      padding: '2px 8px',
-                      borderRadius: '20px',
-                      backgroundColor: user.role === 'owner' ? '#4a3500' : user.role === 'admin' ? '#1a2e4a' : '#2a2a2a',
-                      color: user.role === 'owner' ? '#e8a838' : user.role === 'admin' ? '#6ab0f5' : '#888',
-                    }}>
-                      {user.role}
-                    </span>
+                    <span className={`user-role-badge ${user.role}`}>{user.role}</span>
                     {user.banned === 1 && (
-                      <span style={{
-                        marginLeft: '8px', fontSize: '11px', padding: '2px 8px',
-                        borderRadius: '20px', backgroundColor: '#3a1a1a', color: '#cc4444',
-                      }}>
-                        banned
-                      </span>
+                    <span className="user-banned-badge">banned</span>
                     )}
                   </p>
-                  <p style={{ color: '#666', fontFamily: 'Montserrat', fontSize: '12px' }}>
-                    Joined {formatDate(user.created_at)}
-                  </p>
+                  <p className='sjiac'>Joined {formatDate(user.created_at)}</p>
                 </div>
 
                 {user.role !== 'owner' && (
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    <button
-                      onClick={() => handleRoleChange(user.id, user.role)}
-                      style={{
-                        backgroundColor: user.role === 'admin' ? '#2a2a2a' : '#1a2e4a',
-                        border: '1px solid #555',
-                        color: user.role === 'admin' ? '#aaa' : '#6ab0f5',
-                        fontFamily: 'Montserrat',
-                        fontSize: '12px',
-                        borderRadius: '8px',
-                        padding: '6px 14px',
-                        cursor: 'pointer',
-                      }}
-                    >
+                  <div className='wybpt'>
+                    <button onClick={() => handleRoleChange(user.id, user.role)} className={`user-role-btn ${user.role === 'admin' ? 'admin' : ''}`}>
                       {user.role === 'admin' ? 'Demote to User' : 'Promote to Admin'}
                     </button>
                     <button className={`enmoq ${user.banned ? 'enmoq--unbanned' : 'enmoq--banned'}`} onClick={() => handleBanUser(user.id, user.banned)}> {user.banned ? 'Unban' : 'Ban'}</button>
