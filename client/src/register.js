@@ -9,24 +9,20 @@ const [accept, setAccept] = useState(false);
 const [success, setSuccess] = useState('');
 const [error, setError] = useState('');
 
+// Handle user registration with validation and feedback
 const doRegister = async () => {
   setError('');
   setSuccess('');
-
   if (!accept) return setError('Please review and accept the terms and conditions.');
   if (!username || !password) return setError('Don’t leave any fields blank.');
-
   try {
     const res = await fetch('http://localhost:5000/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
     });
-
     const data = await res.json();
-
     if (!res.ok) return setError(data.error || 'Registration failed');
-
     setSuccess('Account created! You can now log in.');
   } catch {
     setError('Cannot connect to server');

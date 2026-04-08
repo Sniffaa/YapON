@@ -1,41 +1,42 @@
+/*Montserrat*/
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+/*All*/
 * {
   margin: 0;
   padding: 0;
   list-style: none;
   text-decoration: none;
 }
+/*Background Color*/
 body {
   background-color: #1e1e1e;
 }
+/*Placeholder Text*/
 ::placeholder {
   font-family: "Montserrat";
 }
-
-/*=====REGISTER=====*/
-/*WRAPPER*/
+/*Container for the registration form.*/
 .nwxyv {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
-/*CONTAINER*/
+/*Inner card for the registration form.*/
 .chopq {
   width: 500px;
   height: 500px;
   background-color: #303030;
   border-radius: 20px;
 }
-/*TITLE SECTION*/
+/*Styles the main heading of the registration form.*/
 .ajhuo {
   color: #ffffff;
   text-align: center;
   padding: 20px;
   font-family: "Montserrat";
 }
-/*ERROR POPUP*/
+/*Styles the error message displayed when registration fails.*/
 .kuxwp {
   color: #ff4d4d;
   font-family: Montserrat;
@@ -47,7 +48,7 @@ body {
   padding: 8px 14px;
   margin: 0 20px;
 }
-/*SUCCESS POPUP*/
+/*Styles the success message displayed after successful registration.*/
 .wfkjt {
   color: #4dff91;
   font-family: Montserrat;
@@ -59,7 +60,7 @@ body {
   padding: 8px 14px;
   margin: 0 20px;
 }
-/*USERNAME LABEL*/
+/*Styles the label for the username input field.*/
 .arecq {
   color: #ffffff;
   font-family: "Montserrat";
@@ -150,6 +151,11 @@ body {
   align-items: center;
   margin: 35px;
 }
+
+
+
+
+
 
 
 

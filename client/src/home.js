@@ -8,7 +8,7 @@ const authHeaders = (token) => ({ Authorization: `Bearer ${token}` });
 const CATEGORIES = ['All Posts', 'Tech', 'Career', 'General', 'Health', 'Hobbies'];
 const CAT_CLASSES = ['hujp', 'wkwm', 'jjvh', 'bobp', 'khsc', 'fqxw'];
 
-/*Get Current Time & Date*/
+// Format ISO date to readable string with date and time
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString('en-US', {
     month: 'short',
@@ -18,7 +18,7 @@ const formatDate = (iso) =>
     minute: '2-digit',
   });
 
-/*If User Is Marked As Banned Then It Will Deny Entry Into Site*/
+// Intercept responses: log out if account is banned
 axios.interceptors.response.use(
   response => response,
   error => {
@@ -56,7 +56,7 @@ const token = localStorage.getItem('token');
 const currentUsername = localStorage.getItem('username');
 const isOwnPost = post.author === currentUsername;
 
-/*Grabs Comments From Database*/
+// Fetch comments for the current post
 const fetchComments = async () => {
   setLoadingComments(true);
   try {
@@ -71,13 +71,13 @@ const fetchComments = async () => {
   }
 };
 
-/*The Comments Section Unfold When Clicked */
+// Toggle comments visibility and fetch if opening
 const handleToggleComments = () => {
   if (!showComments) fetchComments();
   setShowComments(prev => !prev);
 };
 
-/*Lets The User Add Comments On Posts*/
+// Post a new comment and refresh comments
 const handlePostComment = async () => {
   if (!commentBody.trim()) return;
   try {
@@ -93,7 +93,7 @@ const handlePostComment = async () => {
   }
 };
 
-/*If User Confirms To Delete Comment Then It Will Be Removed*/
+// Confirm and delete a comment, then refresh
 const handleDeleteComment = async (commentId) => {
   if (!window.confirm('Delete this comment?')) return;
   try {
@@ -106,7 +106,7 @@ const handleDeleteComment = async (commentId) => {
   }
 };
 
-/*Deletes The Users Post After Confirming*/
+// Confirm and delete user's own post, then refresh
 const handleDeleteOwnPost = async () => {
   if (!window.confirm('Delete your post?')) return;
   try {
@@ -119,7 +119,7 @@ const handleDeleteOwnPost = async () => {
   }
 };
 
-/*Allows User To Edit Their Own Post*/
+// Update post and refresh on success
 const handleEditPost = async () => {
   setEditError('');
   if (!editTitle.trim() || !editBody.trim()) {
@@ -139,7 +139,7 @@ const handleEditPost = async () => {
   }
 };
 
-/*Opens The Current Posts Title And Body*/
+// Open edit modal with current post data
 const openEditModal = () => {
   setEditTitle(post.title);
   setEditBody(post.body);
@@ -171,18 +171,15 @@ const openEditModal = () => {
           )}
         </div>
       </div>
-
       <h3 className='mspje'>{post.title}</h3>
       <p className='crpgy'>{post.body}</p>
       {!!post.edited && (
         <p className='mwbcj'>(edited)</p>
       )}
-
       <div className='xgwbt'>
         {post.author_avatar ? (
           <img className='eawni' src={`${BASE_URL}${post.author_avatar}`} alt='avatar'/>
         ) : (
-
           <div style={{
             width: '22px', height: '22px', borderRadius: '50%',
             backgroundColor: '#212121', border: '1px solid #3d3d3d',
@@ -201,11 +198,9 @@ const openEditModal = () => {
           by {post.author}
         </p>
       </div>
-
       <button className='mxvfy' onClick={handleToggleComments}>
         {showComments ? '▲ Hide comments' : '▼ Comments'}
       </button>
-
       {showComments && (
         <div style={{ marginTop: '12px', borderTop: '1px solid #3d3d3d', paddingTop: '12px' }}>
           {loadingComments && (
@@ -231,15 +226,12 @@ const openEditModal = () => {
               )}
             </div>
           ))}
-
           <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
             <input value={commentBody} onChange={e => setCommentBody(e.target.value)} onKeyDown={e => e.key === 'Enter' && handlePostComment()} placeholder='Write a comment...' style={{flex: 1, backgroundColor: '#212121', border: 'none', borderRadius: '8px', color: '#fff', fontFamily: 'Montserrat', fontSize: '13px', padding: '8px 12px', outline: 'none',}}/>
             <button onClick={handlePostComment} style={modalBtnStyle(true)}>Post</button>
           </div>
         </div>
       )}
-
-      {/* Edit modal */}
       {showEditModal && (
         <div style={{
           position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)',
@@ -274,92 +266,88 @@ const openEditModal = () => {
   );
 }
 
-// ── Home ──────────────────────────────────────────────────────────────────────
-
 function Home() {
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const currentUsername = localStorage.getItem('username');
-  const role = localStorage.getItem('role');
-  const isPrivileged = role === 'owner' || role === 'admin';
 
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('All Posts');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [postTitle, setPostTitle] = useState('');
-  const [postBody, setPostBody] = useState('');
-  const [postCategory, setPostCategory] = useState(CATEGORIES[1]);
-  const [error, setError] = useState('');
+const navigate = useNavigate();
+const token = localStorage.getItem('token');
+const currentUsername = localStorage.getItem('username');
+const role = localStorage.getItem('role');
+const isPrivileged = role === 'owner' || role === 'admin';
+const [posts, setPosts] = useState([]);
+const [loading, setLoading] = useState(false);
+const [activeCategory, setActiveCategory] = useState('All Posts');
+const [searchQuery, setSearchQuery] = useState('');
+const [isSearching, setIsSearching] = useState(false);
+const [showModal, setShowModal] = useState(false);
+const [postTitle, setPostTitle] = useState('');
+const [postBody, setPostBody] = useState('');
+const [postCategory, setPostCategory] = useState(CATEGORIES[1]);
+const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (!token) navigate('/login', { replace: true });
-  }, []);
+// Redirect unauthenticated users to the login page on mount
+useEffect(() => {
+  if (!token) navigate('/login', { replace: true });
+}, []);
 
-  const fetchPosts = useCallback(async (category = null) => {
-    setLoading(true);
-    try {
-      const params = category && category !== 'All Posts' ? { category } : {};
-      const res = await axios.get(`${BASE_URL}/api/posts`, {
-        headers: authHeaders(token),
-        params,
-      });
-      setPosts(res.data.posts);
-    } catch (err) {
-      console.error('Failed to load posts', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+// Fetch posts, optionally filtered by category
+const fetchPosts = useCallback(async (category = null) => {
+  setLoading(true);
+  try {
+    const params = category && category !== 'All Posts' ? { category } : {};
+    const res = await axios.get(`${BASE_URL}/api/posts`, {
+      headers: authHeaders(token),
+      params,
+    });
+    setPosts(res.data.posts);
+  } catch (err) {
+    console.error('Failed to load posts', err);
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
-  const handleSearch = useCallback(async (q) => {
-    if (!q.trim()) {
-      setIsSearching(false);
-      fetchPosts(activeCategory);
-      return;
-    }
-    setIsSearching(true);
-    setLoading(true);
-    try {
-      const res = await axios.get(`${BASE_URL}/api/search`, {
-        headers: authHeaders(token),
-        params: { q },
-      });
-      setPosts(res.data.posts);
-    } catch (err) {
-      console.error('Search failed', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [activeCategory]);
+// Search posts or reset to category if query is empty
+const handleSearch = useCallback(async (q) => {
+  if (!q.trim()) {
+    setIsSearching(false);
+    fetchPosts(activeCategory);
+    return;
+  }
+  setIsSearching(true);
+  setLoading(true);
+  try {
+    const res = await axios.get(`${BASE_URL}/api/search`, {
+      headers: authHeaders(token),
+      params: { q },
+    });
+    setPosts(res.data.posts);
+  } catch (err) {
+    console.error('Search failed', err);
+  } finally {
+    setLoading(false);
+  }
+}, [activeCategory]);
 
-  useEffect(() => {
-    const delay = setTimeout(() => handleSearch(searchQuery), 300);
-    return () => clearTimeout(delay);
-  }, [searchQuery]);
+// Debounce search input: triggers handleSearch after 300ms of inactivity
+useEffect(() => {
+  const delay = setTimeout(() => handleSearch(searchQuery), 300);
+  // Clear timeout if searchQuery changes before the delay expires
+  return () => clearTimeout(delay);
+}, [searchQuery]);
 
-  useEffect(() => {
-    if (!isSearching) fetchPosts(activeCategory);
-  }, [activeCategory]);
+// Re-fetch posts when activeCategory changes, provided a search is not in progress
+useEffect(() => {
+  if (!isSearching) fetchPosts(activeCategory);
+}, [activeCategory]);
 
-
-
-
-
-
-
+// Reset search and set active category
 const handleCategoryClick = (cat) => {
   setSearchQuery('');
   setIsSearching(false);
   setActiveCategory(cat);
 };
 
-
-
-
-
+// Create a new post and refresh list
 const handleCreatePost = async () => {
   setError('');
   if (!postTitle.trim() || !postBody.trim()) {
@@ -382,10 +370,7 @@ const handleCreatePost = async () => {
   }
 };
 
-
-
-
-
+// Confirm and delete post, then refresh list
 const handleDeletePost = async (id) => {
   if (!window.confirm('Delete this post?')) return;
   try {
@@ -396,10 +381,7 @@ const handleDeletePost = async (id) => {
   }
 };
 
-
-
-
-
+// Toggle post pin status and refresh posts
 const handlePinPost = async (id, currentlyPinned) => {
   try {
     await axios.patch(
@@ -413,10 +395,7 @@ const handlePinPost = async (id, currentlyPinned) => {
   }
 };
 
-
-
-
-/*strips token, username, and role. Then after it redirects the user to the login page*/
+// Clear auth data and redirect to login
 const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('username');

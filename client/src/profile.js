@@ -20,17 +20,17 @@ const token = localStorage.getItem('token');
 const currentUsername = localStorage.getItem('username');
 const isOwnProfile = currentUsername === username;
 
-/*If no user token is found then redirect to login page*/
+// Redirect to login if user is not authenticated
 useEffect(() => {
   if (!token) navigate('/login', { replace: true });
 }, []);
 
-/*Grabs users posts and bio*/
+// Fetch user profile whenever username changes
 useEffect(() => {
   fetchProfile();
 }, [username]);
 
-/*Get users profile*/
+// Fetch user profile and posts, handle loading and 404
 const fetchProfile = async () => {
   setLoading(true);
   setNotFound(false);
@@ -48,7 +48,7 @@ const fetchProfile = async () => {
   }
 };
 
-/*Store users bio to database*/
+// Save updated bio and refresh profile
 const handleSaveBio = async () => {
   setBioError('');
   try { 
@@ -64,7 +64,7 @@ const handleSaveBio = async () => {
   }
 };
 
-/*Allows user to upload a pfp*/
+// Upload new avatar and refresh profile
 const handleAvatarChange = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -87,14 +87,14 @@ const handleAvatarChange = async (e) => {
   }
 };
 
-/*Orders time and date that is given*/
+// Format ISO date string to readable US date and time
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString('en-US', {
     month: 'short', day: 'numeric', year: 'numeric',
     hour: '2-digit', minute: '2-digit',
   });
 
-/*Colors for specific roles*/
+// Return background and text color based on user role
 const roleColor = (role) => {
   if (role === 'owner') return { bg: '#4a3500', color: '#e8a838' };
   if (role === 'admin') return { bg: '#1a2e4a', color: '#6ab0f5' };

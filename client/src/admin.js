@@ -13,20 +13,20 @@ const [message, setMessage] = useState('');
 const token = localStorage.getItem('token');
 const role = localStorage.getItem('role');
 
-/*If user has token or role owner then navigate to home*/
+// Redirect non-owners or unauthenticated users to home
 useEffect(() => {
   if (!token || role !== 'owner') {
     navigate('/', { replace: true });
   }
 }, []);
 
-/*Grab all users and posts from the database once loaded in*/
+// Fetch users and posts on component mount
 useEffect(() => {
   fetchUsers();
   fetchPosts();
 }, []);
 
-/*Gets the user and logs under users state*/
+// Fetch all users from the server
 const fetchUsers = async () => {
   try {
     const res = await axios.get('http://localhost:5000/api/users', {
@@ -38,7 +38,7 @@ const fetchUsers = async () => {
   }
 };
 
-/*Gets all the posts from database*/
+// Fetch all posts from the server
 const fetchPosts = async () => {
   try {
     const res = await axios.get('http://localhost:5000/api/posts', {
@@ -50,7 +50,7 @@ const fetchPosts = async () => {
   }
 };
 
-/*Admin able to delete users*/
+// Confirm and delete a user, then refresh users and posts
 const handleDeleteUser = async (id, username) => {
   if (!window.confirm(`Delete user "${username}"? This will also delete all their posts.`)) return;
   try {
@@ -65,7 +65,7 @@ const handleDeleteUser = async (id, username) => {
   }
 };
 
-/*Owner can promote or demote users to admin role*/
+// Toggle user role between admin and user, then refresh users
 const handleRoleChange = async (id, currentRole) => {
   const newRole = currentRole === 'admin' ? 'user' : 'admin';
   try {
@@ -81,7 +81,7 @@ const handleRoleChange = async (id, currentRole) => {
   }
 };
 
-/*Lets admins ban and unban users*/
+// Confirm and toggle user ban status, then refresh users
 const handleBanUser = async (id, currentlyBanned) => {
   const action = currentlyBanned ? 'unban' : 'ban';
   if (!window.confirm(`Are you sure you want to ${action} this user?`)) return;
@@ -98,7 +98,7 @@ const handleBanUser = async (id, currentlyBanned) => {
   }
 };
 
-/*Wipes entire database data*/
+// Confirm and wipe entire database, then refresh users and posts
 const handleWipeDatabase = async () => {
   if (!window.confirm('WARNING: This will delete ALL posts, comments, and non-owner users. This cannot be undone. Are you sure?')) return;
   if (!window.confirm('Are you absolutely sure? This is irreversible.')) return;
@@ -114,7 +114,7 @@ const handleWipeDatabase = async () => {
   }
 };
 
-/*Deletes post from db*/
+// Confirm and delete a post, then refresh posts
 const handleDeletePost = async (id) => {
   if (!window.confirm('Delete this post?')) return;
   try {
@@ -128,14 +128,13 @@ const handleDeletePost = async (id) => {
   }
 };
 
-/*Gets current date and time*/
+// Format ISO date to readable US date and time
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString('en-US', {
     month: 'short', day: 'numeric', year: 'numeric',
     hour: '2-digit', minute: '2-digit',
   });
 
-/**/
 const tabStyle = (tab) => ({
   backgroundColor: activeTab === tab ? '#1e1e1e' : '#2e2e2e',
   color: activeTab === tab ? '#fff' : '#aaa',
@@ -153,21 +152,17 @@ return (
       <h1 className='sdgjp'>YapON — Admin Panel</h1>
       <button className='mslah' onClick={() => navigate('/')}>← Back to Home</button>
     </div>
-
     <div className='wkhis'>
       <button style={tabStyle('users')} onClick={() => setActiveTab('users')}>Users ({users.length})</button>
       <button style={tabStyle('posts')} onClick={() => setActiveTab('posts')}>Posts ({posts.length})</button>
       <button className='dboul' onClick={handleWipeDatabase}>⚠ Wipe Database</button>
     </div>
-
     {message && (
       <div className='tbrdw'>
     {message}
-
     <button className='cwkbd' onClick={() => setMessage('')}>×</button>
   </div>
 )}
-
       <div className='nmeuf'>
         {activeTab === 'users' && (
           <div className='lvkfn'>
@@ -183,7 +178,6 @@ return (
                   </p>
                   <p className='sjiac'>Joined {formatDate(user.created_at)}</p>
                 </div>
-
                 {user.role !== 'owner' && (
                   <div className='wybpt'>
                     <button onClick={() => handleRoleChange(user.id, user.role)} className={`user-role-btn ${user.role === 'admin' ? 'admin' : ''}`}>
@@ -197,7 +191,6 @@ return (
             ))}
           </div>
         )}
-
         {activeTab === 'posts' && (
           <div className='vwoda'>
             {posts.length === 0 && (
@@ -219,7 +212,6 @@ return (
           </div>
         )}
       </div>
-
       <div className='utasw'>
         <p className='okjnq'>&copy; 2026 YapON. All rights reserved.</p>
       </div>

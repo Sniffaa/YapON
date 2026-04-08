@@ -10,13 +10,13 @@ const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [message, setMessage] = useState('');
 
-/*If site token is found goto home*/
+// Redirect to home if user is already logged in
 useEffect(() => {
   const token = localStorage.getItem('token');
   if (token) navigate('/', { replace: true });
 }, []);
 
-/*Lets user login, saves the users token, and goes to home page, if failed show error*/
+// Handle user login and store auth data
 const handleLogin = async () => {
   setMessage('');
   if (!username || !password) {
