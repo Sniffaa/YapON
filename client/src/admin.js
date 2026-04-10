@@ -153,8 +153,8 @@ return (
       <button className='mslah' onClick={() => navigate('/')}>← Back to Home</button>
     </div>
     <div className='wkhis'>
-      <button style={tabStyle('users')} onClick={() => setActiveTab('users')}>Users ({users.length})</button>
-      <button style={tabStyle('posts')} onClick={() => setActiveTab('posts')}>Posts ({posts.length})</button>
+      <button className={`tab ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>Users ({users.length})</button>
+      <button className={`tab ${activeTab === 'posts' ? 'active' : ''}`} onClick={() => setActiveTab('posts')}>Posts ({posts.length})</button>
       <button className='dboul' onClick={handleWipeDatabase}>⚠ Wipe Database</button>
     </div>
     {message && (
@@ -212,8 +212,8 @@ return (
           </div>
         )}
       </div>
-      <div className='utasw'>
-        <p className='okjnq'>&copy; 2026 YapON. All rights reserved.</p>
+      <div className='dcxtq'>
+        <p className='onwty'>&copy; 2026 YapON. All rights reserved.</p>
       </div>
     </div>
   );

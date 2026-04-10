@@ -28,7 +28,7 @@ const doRegister = async () => {
     setError('Cannot connect to server');
   }
 };
-    
+
 return (
 <div className='nwxyv'>
   <div className='chopq'>

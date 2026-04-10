@@ -33,14 +33,6 @@ axios.interceptors.response.use(
   }
 );
 
-const modalBtnStyle = (primary) => ({
-  backgroundColor: primary ? '#fff' : '#212121',
-  border: primary ? 'none' : '1px solid #555',
-  color: primary ? '#1e1e1e' : '#fff',
-  fontFamily: 'Montserrat', fontWeight: primary ? 600 : 400,
-  borderRadius: '10px', padding: '8px 20px', cursor: 'pointer',
-});
-
 function PostCard({ post, isPrivileged, onDelete, onPin, onRefresh }) {
 
 const navigate = useNavigate();
@@ -180,21 +172,11 @@ const openEditModal = () => {
         {post.author_avatar ? (
           <img className='eawni' src={`${BASE_URL}${post.author_avatar}`} alt='avatar'/>
         ) : (
-          <div style={{
-            width: '22px', height: '22px', borderRadius: '50%',
-            backgroundColor: '#212121', border: '1px solid #3d3d3d',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '11px', color: '#fff', fontFamily: 'Montserrat', fontWeight: 600,
-          }}>
+          <div className='reowj'>
             {post.author[0].toUpperCase()}
           </div>
         )}
-        <p
-          style={{ color: '#777', fontSize: '12px', fontFamily: 'Montserrat', cursor: 'pointer' }}
-          onClick={() => navigate(`/profile/${post.author}`)}
-          onMouseEnter={e => { e.target.style.color = '#fff'; e.target.style.textDecoration = 'underline'; }}
-          onMouseLeave={e => { e.target.style.color = '#777'; e.target.style.textDecoration = 'none'; }}
-        >
+        <p className='aqdri' onClick={() => navigate(`/profile/${post.author}`)} onMouseEnter={e => { e.target.style.color = '#fff'; e.target.style.textDecoration = 'underline'; }} onMouseLeave={e => { e.target.style.color = '#777'; e.target.style.textDecoration = 'none'; }}>
           by {post.author}
         </p>
       </div>
@@ -202,62 +184,48 @@ const openEditModal = () => {
         {showComments ? '▲ Hide comments' : '▼ Comments'}
       </button>
       {showComments && (
-        <div style={{ marginTop: '12px', borderTop: '1px solid #3d3d3d', paddingTop: '12px' }}>
+        <div className='enrfv'>
           {loadingComments && (
-            <p style={{ color: '#666', fontFamily: 'Montserrat', fontSize: '12px' }}>Loading...</p>
+            <p className='weqik'>Loading...</p>
           )}
           {!loadingComments && comments.length === 0 && (
-            <p style={{ color: '#555', fontFamily: 'Montserrat', fontSize: '12px' }}>No comments yet.</p>
+            <p className='jciyt'>No comments yet.</p>
           )}
           {comments.map(comment => (
-            <div key={comment.id} style={{
-              backgroundColor: '#252525', borderRadius: '8px', padding: '10px 14px',
-              marginBottom: '8px', display: 'flex', justifyContent: 'space-between',
-              alignItems: 'flex-start', gap: '10px',
-            }}>
-              <div style={{ flex: 1 }}>
-                <p style={{ color: '#ccc', fontFamily: 'Montserrat', fontSize: '13px', lineHeight: 1.5 }}>{comment.body}</p>
-                <p style={{ color: '#555', fontFamily: 'Montserrat', fontSize: '11px', marginTop: '4px' }}>
-                  by {comment.author} · {formatDate(comment.created_at)}
-                </p>
+            <div className='gokpd' key={comment.id}>
+              <div className='wkpvc'>
+                <p className='vnwxd'>{comment.body}</p>
+                <p className='otvhs'>by {comment.author} · {formatDate(comment.created_at)}</p>
               </div>
               {(isPrivileged || comment.author === currentUsername) && (
                 <button className='grcsu' onClick={() => handleDeleteComment(comment.id)}>🗑</button>
               )}
             </div>
           ))}
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-            <input value={commentBody} onChange={e => setCommentBody(e.target.value)} onKeyDown={e => e.key === 'Enter' && handlePostComment()} placeholder='Write a comment...' style={{flex: 1, backgroundColor: '#212121', border: 'none', borderRadius: '8px', color: '#fff', fontFamily: 'Montserrat', fontSize: '13px', padding: '8px 12px', outline: 'none',}}/>
-            <button onClick={handlePostComment} style={modalBtnStyle(true)}>Post</button>
+          <div className='rbxfv'>
+            <input className='fvmwp' value={commentBody} onChange={e => setCommentBody(e.target.value)} onKeyDown={e => e.key === 'Enter' && handlePostComment()} placeholder='Write a comment...'/>
+            <button className="modal-btn primary" onClick={handlePostComment}>Post</button>
           </div>
         </div>
       )}
       {showEditModal && (
-        <div style={{
-          position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)',
-          display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000,
-        }}>
-          <div style={{
-            backgroundColor: '#303030', borderRadius: '16px', padding: '30px',
-            width: '500px', maxWidth: '90vw', display: 'flex', flexDirection: 'column', gap: '14px',
-          }}>
-            <h2 style={{ color: '#fff', fontFamily: 'Montserrat', textAlign: 'center' }}>Edit Post</h2>
+        <div className='dohwu'>
+          <div className='keolb'>
+            <h2 className='rnhpw'>Edit Post</h2>
             {editError && (
-              <p style={{ color: 'red', fontFamily: 'Montserrat', fontSize: '13px', textAlign: 'center' }}>{editError}</p>
+              <p className='dopgf'>{editError}</p>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ color: '#ccc', fontFamily: 'Montserrat', fontSize: '13px' }}>Title</label>
-              <input value={editTitle} onChange={e => setEditTitle(e.target.value)}
-                style={{ backgroundColor: '#212121', border: 'none', borderRadius: '10px', color: '#fff', fontFamily: 'Montserrat', height: '36px', textIndent: '12px', outline: 'none' }} />
+            <div className='cnsfj'>
+              <label className='vcauh'>Title</label>
+              <input className='nevdg' value={editTitle} onChange={e => setEditTitle(e.target.value)}/>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ color: '#ccc', fontFamily: 'Montserrat', fontSize: '13px' }}>Body</label>
-              <textarea value={editBody} onChange={e => setEditBody(e.target.value)} rows={5}
-                style={{ backgroundColor: '#212121', border: 'none', borderRadius: '10px', color: '#fff', fontFamily: 'Montserrat', padding: '12px', resize: 'vertical', outline: 'none' }} />
+            <div className='cekaq'>
+              <label className='qwbco'>Body</label>
+              <textarea className='dmtau' value={editBody} onChange={e => setEditBody(e.target.value)} rows={5}/>
             </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-              <button onClick={() => { setShowEditModal(false); setEditError(''); }} style={modalBtnStyle(false)}>Cancel</button>
-              <button onClick={handleEditPost} style={modalBtnStyle(true)}>Save</button>
+            <div className='mlaoc'>
+              <button className="modal-btn" onClick={() => { setShowEditModal(false); setEditError(''); }}>Cancel</button>
+              <button className="modal-btn primary" onClick={handleEditPost}>Save</button>
             </div>
           </div>
         </div>
@@ -421,12 +389,11 @@ const logout = () => {
           Logout
         </button>
       </div>
-
       <div className='qtwpc'>
         <div className='kltxb'>
           <p className='hrywg'>Browse</p>
           {CATEGORIES.map((cat, i) => (
-            <button key={cat} className={`${CAT_CLASSES[i]}${activeCategory === cat && !isSearching ? ' rkbva' : ''}`} onClick={() => handleCategoryClick(cat)}>
+            <button className={`${CAT_CLASSES[i]}${activeCategory === cat && !isSearching ? ' rkbva' : ''}`} key={cat} onClick={() => handleCategoryClick(cat)}>
               {cat}
             </button>
           ))}
@@ -440,7 +407,6 @@ const logout = () => {
             <p className='yngxf'>{activeCategory || 'All Posts'}</p>
             <button className='jxdmy' onClick={() => setShowModal(true)}>+ Create Post</button>
           </div>
-
           <div className='hbnmw'>
             {loading && (
               <p className='fidgy'>Loading posts...</p>
@@ -461,46 +427,36 @@ const logout = () => {
           </div>
         </div>
       </div>
-
       <div className='utasw'>
         <p className='okjnq'>&copy; 2026 YapON. All rights reserved.</p>
       </div>
 
       {showModal && (
-        <div style={{
-          position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)',
-          display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000,
-        }}>
-          <div style={{
-            backgroundColor: '#303030', borderRadius: '16px', padding: '30px',
-            width: '500px', maxWidth: '90vw', display: 'flex', flexDirection: 'column', gap: '14px',
-          }}>
-            <h2 style={{ color: '#fff', fontFamily: 'Montserrat', textAlign: 'center' }}>Create Post</h2>
+        <div className='frtlq'>
+          <div className='isqto'>
+            <h2 className='yfrkw'>Create Post</h2>
             {error && (
-              <p style={{ color: 'red', fontFamily: 'Montserrat', fontSize: '13px', textAlign: 'center' }}>{error}</p>
+              <p className='nfeiu'>{error}</p>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ color: '#ccc', fontFamily: 'Montserrat', fontSize: '13px' }}>Category</label>
-              <select value={postCategory} onChange={e => setPostCategory(e.target.value)}
-                style={{ backgroundColor: '#212121', border: 'none', borderRadius: '10px', color: '#fff', fontFamily: 'Montserrat', height: '36px', padding: '0 12px', outline: 'none' }}>
+            <div className='blonf'>
+              <label className='cflxr'>Category</label>
+              <select className='pqaue' value={postCategory} onChange={e => setPostCategory(e.target.value)}>
                 {CATEGORIES.filter(c => c !== 'All Posts').map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ color: '#ccc', fontFamily: 'Montserrat', fontSize: '13px' }}>Title</label>
-              <input value={postTitle} onChange={e => setPostTitle(e.target.value)} placeholder='Post title...'
-                style={{ backgroundColor: '#212121', border: 'none', borderRadius: '10px', color: '#fff', fontFamily: 'Montserrat', height: '36px', textIndent: '12px', outline: 'none' }} />
+            <div className='gemai'>
+              <label className='ilegu'>Title</label>
+              <input className='ancrh' value={postTitle} onChange={e => setPostTitle(e.target.value)} placeholder='Post title...'/>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label style={{ color: '#ccc', fontFamily: 'Montserrat', fontSize: '13px' }}>Body</label>
-              <textarea value={postBody} onChange={e => setPostBody(e.target.value)} placeholder='Write your post...' rows={5}
-                style={{ backgroundColor: '#212121', border: 'none', borderRadius: '10px', color: '#fff', fontFamily: 'Montserrat', padding: '12px', resize: 'vertical', outline: 'none' }} />
+            <div className='itvos'>
+              <label className='xluao'>Body</label>
+              <textarea className='emwlh' value={postBody} onChange={e => setPostBody(e.target.value)} placeholder='Write your post...' rows={5}/>
             </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '6px' }}>
-              <button onClick={() => { setShowModal(false); setError(''); }} style={modalBtnStyle(false)}>Cancel</button>
-              <button onClick={handleCreatePost} style={modalBtnStyle(true)}>Post</button>
+            <div className='kewbi'>
+              <button className="modal-btn" onClick={() => { setShowModal(false); setError(''); }}>Cancel</button>
+              <button className="modal-btn primary" onClick={handleCreatePost}>Post</button>
             </div>
           </div>
         </div>
